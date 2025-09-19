@@ -49,7 +49,7 @@ class Receita:
     def mostrar_preparo(self):
 
         print(f"\n--- Modo de Preparo: {self.nome} ---")
-        print(self.passo) # Apenas imprimimos o atributo que já guardamos
+        print(self.passo) 
         print("-----------------------------------------")
 
     def remover_ingrediente(self, ingrediente_id: int):
