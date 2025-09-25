@@ -1,23 +1,23 @@
 class Ingrediente:
-    next_id = 1
+    proximo_id = 1
 
     def __init__(self,nome):
-        self.id = Ingrediente.next_id
-        Ingrediente.next_id +=1
+        self.id = Ingrediente.proximo_id
+        Ingrediente.proximo_id +=1
         self.nome = nome
 
 class ItemLista:
 
-    next_id = 1
+    proximo_id = 1
 
     def __init__(self,quantidade,receita,ingrediente):
-        self.id = ItemLista.next_id
-        ItemLista.next_id +=1
+        self.id = ItemLista.proximo_id
+        ItemLista.proximo_id +=1
         self.quantidade = quantidade
         self.receita = receita
         self.ingrediente = ingrediente
     
-    def Atualizar_quantidade (self,nova_quantidade : str):
+    def Atualizar_quantidade (self,nova_quantidade):
         
         self.quantidade = nova_quantidade
 
@@ -31,17 +31,17 @@ class ItemLista:
 
 class Receita:
 
-    next_id = 1
+    proximo_id = 1
 
     def __init__(self,nome, descricao,passo):
-        self.id = Receita.next_id
-        Receita.next_id += 1
+        self.id = Receita.proximo_id
+        Receita.proximo_id += 1
         self.nome = nome
         self.descricao = descricao
         self.passo = passo
         self.itens = []
 
-    def adicionar_ingrediente(self, Ingrediente: int, quantidade: str):
+    def adicionar_ingrediente(self, Ingrediente, quantidade):
         novo_items = ItemLista(quantidade,self,Ingrediente)
         self.itens.append(novo_items)
         print(f"'{Ingrediente.nome}' adicionado à receita '{self.nome}'")
@@ -52,7 +52,7 @@ class Receita:
         print(self.passo) 
         print("-----------------------------------------")
 
-    def remover_ingrediente(self, ingrediente_id: int):
+    def remover_ingrediente(self, ingrediente_id):
         itens_remover = None
         for item in self.itens:
             if item.ingrediente.id == ingrediente_id:
