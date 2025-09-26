@@ -7,7 +7,6 @@ class Ingrediente:
         self.nome = nome
 
 class ItemLista:
-
     proximo_id = 1
 
     def __init__(self,quantidade,receita,ingrediente):
@@ -17,20 +16,14 @@ class ItemLista:
         self.receita = receita
         self.ingrediente = ingrediente
     
-    def Atualizar_quantidade (self,nova_quantidade):
-        
+    def atualizar_quantidade (self,nova_quantidade):        
         self.quantidade = nova_quantidade
 
-    def Obter_detalhes(self):
-        return f"Ingrediente: {self.ingrediente.nome}, Quantidade: {self.quantidade}"
-    
-    def obter_detalhes(self):
-        
+    def __str__(self):
         return f"Ingrediente: {self.ingrediente.nome}, Quantidade: {self.quantidade}"
 
 
 class Receita:
-
     proximo_id = 1
 
     def __init__(self,nome, descricao,passo):
@@ -41,13 +34,12 @@ class Receita:
         self.passo = passo
         self.itens = []
 
-    def adicionar_ingrediente(self, Ingrediente, quantidade):
-        novo_items = ItemLista(quantidade,self,Ingrediente)
+    def adicionar_ingrediente(self, ingrediente, quantidade):
+        novo_items = ItemLista(quantidade,self,ingrediente)
         self.itens.append(novo_items)
-        print(f"'{Ingrediente.nome}' adicionado à receita '{self.nome}'")
+        print(f"'{ingrediente.nome}' adicionado à receita '{self.nome}'")
 
     def mostrar_preparo(self):
-
         print(f"\n--- Modo de Preparo: {self.nome} ---")
         print(self.passo) 
         print("-----------------------------------------")
@@ -63,19 +55,18 @@ class Receita:
             print(f"Ingrediente com ID {ingrediente_id} removido da receita '{self.nome}'.")
         else:
             print(f"Ingrediente com ID {ingrediente_id} não encontrado na receita.")
+    
     def listar_ingredientes(self):
-
         print(f"\n--- Ingredientes para: {self.nome} ---")
         if not self.itens:
             print("Nenhum ingrediente na lista.")
         else:
             for item in self.itens:
-                print(item.obter_detalhes())
+                print(item)
                 print("------------------------------------")
 
 
 print("Definindo insumos da receita...")
-
 
 instrucoes_do_bolo = """
 1. Em uma tigela, misture a farinha, o açúcar e os ovos.
@@ -85,14 +76,11 @@ instrucoes_do_bolo = """
 5. Espere esfriar para desenformar.
 """
 
-
 farinha = Ingrediente("Farinha de Trigo")
 acucar = Ingrediente("Açúcar")
 ovo = Ingrediente("Ovo")
 leite = Ingrediente("Leite")
 print("Insumos definidos.\n")
-
-
 
 print("Criando o objeto Receita...")
 bolo_simples = Receita(
@@ -102,23 +90,16 @@ bolo_simples = Receita(
 )
 print(f"Receita '{bolo_simples.nome}' criada.\n")
 
-
 print("Adicionando ingredientes à receita...")
 bolo_simples.adicionar_ingrediente(farinha, "2 xícaras")
 bolo_simples.adicionar_ingrediente(acucar, "1 xícara")
 bolo_simples.adicionar_ingrediente(ovo, "3 unidades")
 bolo_simples.adicionar_ingrediente(leite, "200 ml")
 
-
-
 bolo_simples.listar_ingredientes()
 bolo_simples.mostrar_preparo()
 
-
-
 bolo_simples.remover_ingrediente(2) 
-
-
 
 print("\nMostrando a lista de ingredientes após a remoção:")
 bolo_simples.listar_ingredientes()
