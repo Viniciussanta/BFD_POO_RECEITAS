@@ -9,14 +9,14 @@ class Ingrediente:
 class ItemLista:
     proximo_id = 1
 
-    def __init__(self,quantidade,receita,ingrediente):
+    def __init__(self, quantidade, receita, ingrediente):
         self.id = ItemLista.proximo_id
         ItemLista.proximo_id +=1
         self.quantidade = quantidade
         self.receita = receita
         self.ingrediente = ingrediente
     
-    def atualizar_quantidade (self,nova_quantidade):        
+    def atualizar_quantidade (self, nova_quantidade):        
         self.quantidade = nova_quantidade
 
     def __str__(self):
@@ -26,7 +26,7 @@ class ItemLista:
 class Receita:
     proximo_id = 1
 
-    def __init__(self,nome, descricao,passo):
+    def __init__(self, nome, descricao, passo):
         self.id = Receita.proximo_id
         Receita.proximo_id += 1
         self.nome = nome
@@ -35,7 +35,7 @@ class Receita:
         self.itens = []
 
     def adicionar_ingrediente(self, ingrediente, quantidade):
-        novo_items = ItemLista(quantidade,self,ingrediente)
+        novo_items = ItemLista(quantidade, self, ingrediente)
         self.itens.append(novo_items)
         print(f"'{ingrediente.nome}' adicionado à receita '{self.nome}'")
 
@@ -76,30 +76,60 @@ instrucoes_do_bolo = """
 5. Espere esfriar para desenformar.
 """
 
-farinha = Ingrediente("Farinha de Trigo")
-acucar = Ingrediente("Açúcar")
-ovo = Ingrediente("Ovo")
-leite = Ingrediente("Leite")
-print("Insumos definidos.\n")
-
-print("Criando o objeto Receita...")
 bolo_simples = Receita(
-    nome="Bolo Simples", 
-    descricao="Um bolo fofinho para o café", 
-    passo=instrucoes_do_bolo  
+    nome="Bolo Simples",
+    descricao="Um bolo fofinho para o café.",
+    passo=instrucoes_do_bolo
 )
 print(f"Receita '{bolo_simples.nome}' criada.\n")
 
-print("Adicionando ingredientes à receita...")
-bolo_simples.adicionar_ingrediente(farinha, "2 xícaras")
-bolo_simples.adicionar_ingrediente(acucar, "1 xícara")
-bolo_simples.adicionar_ingrediente(ovo, "3 unidades")
-bolo_simples.adicionar_ingrediente(leite, "200 ml")
+ingredientes_disponiveis = {
+    1: Ingrediente("Farinha de Trigo"),
+    2: Ingrediente("Açúcar"),
+    3: Ingrediente("Ovo"),
+    4: Ingrediente("Leite")
+}
 
-bolo_simples.listar_ingredientes()
-bolo_simples.mostrar_preparo()
+while True:
+    print("\nMENU RECEITA")
+    print("1 - Adicionar ingrediente")
+    print("2 - Listar ingredientes")
+    print("3 - Remover ingrediente")
+    print("4 - Mostrar preparo")
+    print("0 - Sair")
 
-bolo_simples.remover_ingrediente(2) 
+    opcao = input("Escolha uma opção: ")
 
-print("\nMostrando a lista de ingredientes após a remoção:")
-bolo_simples.listar_ingredientes()
+    if opcao == "1":
+        print("\nIngredientes disponíveis:")
+        for id_ing, ing in ingredientes_disponiveis.items():
+            print(f"{id_ing} - {ing.nome}")
+        try:
+            escolha = int(input("Digite o ID do ingrediente: "))
+            quantidade = input("Digite a quantidade: ")
+            if escolha in ingredientes_disponiveis:
+                bolo_simples.adicionar_ingrediente(ingredientes_disponiveis[escolha], quantidade)
+            else:
+                print("Ingrediente inválido.")
+        except ValueError:
+            print("Entrada inválida. Use números para o ID.")
+
+    elif opcao == "2":
+        bolo_simples.listar_ingredientes()
+
+    elif opcao == "3":
+        try:
+            id_remover = int(input("Digite o ID do ingrediente para remover: "))
+            bolo_simples.remover_ingrediente(id_remover)
+        except ValueError:
+            print("Entrada inválida. Use números para o ID.")
+
+    elif opcao == "4":
+        bolo_simples.mostrar_preparo()
+
+    elif opcao == "0":
+        print("Saindo do programa...")
+        break
+
+    else:
+        print("Opção inválida, tente novamente!")
